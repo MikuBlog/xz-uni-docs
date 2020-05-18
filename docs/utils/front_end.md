@@ -3,14 +3,15 @@
 
 > 为了方便后台的静态资源迁移，于是有了以上这个接口。
 
-> tips: 静态资源的前缀路径可在 public/assets/js/baseUrl.js下修改`prefixUrl`字段值。
+> tips: 静态资源的前缀路径可在 global/js/baseUrl.js下修改`prefixUrl`字段值。
 
 ```js
-var
-  // 接口统一请求前缀地址
-  baseUrl = 'http://localhost:8087',
-  // 静态资源请求前缀地址
-  prefixUrl = 'http://localhost:8087'
+// 接口统一请求前缀地址
+baseUrl = 'http://localhost:8087',
+// 静态资源请求前缀地址
+prefixUrl = 'http://localhost:8087'
+// 缺省占位图
+thumb = "https://myinterface.xuanzai.top/getPicture?type=error"
 ```
 
 示例:
@@ -44,7 +45,7 @@ type.isDate(val) // 判断值是否为日期类型
 
 <br/>
 
-## Element UI表单验证
+## 验证字符串
 
 <br/>
 
@@ -59,25 +60,13 @@ type.isDate(val) // 判断值是否为日期类型
 示例:
 ```js
 import { 
-  validateMobile, 
-  validatePhone, 
-  validateBothPhMob } 
-from '@/utils/form_validate'
+  isPhone, 
+  isMobile } 
+from '@/utils/validate'
 
-rules: {
-  // 验证电话号码
-	phone: [{
-		{ required: true, trigger: "change", validator: validatePhone }
-  }],
-  // 验证手机号码
-	mobile: [{
-		{ required: true, trigger: "change", validator: validateMobile }
-  }],
-  // 验证手机或电话号码
-  phMob: [{
-		{ required: true, trigger: "change", validator: validateBothPhMob }
-	}]
-}
+isPhone(str) // true or false
+isMobile(str) // true or false
+isPhone(str) || isMobile(str) // true or false
 ```
 
 <br/>
@@ -86,13 +75,9 @@ rules: {
 
 示例:
 ```js
-import { validateEmail } from '@/utils/form_validate'
+import { isEmail } from '@/utils/validate'
 
-rules: {
-	email: [{
-		{ required: true, trigger: "change", validator: validateEmail }
-	}]
-}
+isEmail(str) // true or false
 ```
 
 <br/>
@@ -101,13 +86,9 @@ rules: {
 
 示例:
 ```js
-import { validateId } from '@/utils/form_validate'
+import { isId } from '@/utils/validate'
 
-rules: {
-	idCard: [{
-		{ required: true, trigger: "change", validator: validateId }
-	}]
-}
+isId(str) // true or false
 ```
 
 <br/>
@@ -116,13 +97,9 @@ rules: {
 
 示例:
 ```js
-import { validateUrl } from '@/utils/form_validate'
+import { isURL } from '@/utils/validate'
 
-rules: {
-	url: [{
-		{ required: true, trigger: "change", validator: validateUrl }
-	}]
-}
+isURL(str) // true or false
 ```
 
 <br/>
@@ -131,13 +108,9 @@ rules: {
 
 示例:
 ```js
-import { validateLowerCase } from '@/utils/form_validate'
+import { isLowerCase } from '@/utils/validate'
 
-rules: {
-	lowerStr: [{
-		{ required: true, trigger: "change", validator: validateLowerCase }
-	}]
-}
+isLowerCase(str) // true or false
 ```
 
 <br/>
@@ -146,157 +119,20 @@ rules: {
 
 示例:
 ```js
-import { validateUpperCase } from '@/utils/form_validate'
+import { isUpperCase } from '@/utils/validate'
 
-rules: {
-	upperStr: [{
-		{ required: true, trigger: "change", validator: validateUpperCase }
-	}]
-}
+isUpperCase(str) // true or false
 ```
 
 <br/>
 
-### 验证是否为数字
+## 加密
 
 示例:
 ```js
-import { validateNumber } from '@/utils/form_validate'
+import { encrypt } from '@/utils/encrypt'
 
-// 单纯验证是否为数字
-rules: {
-	num: [{
-		{ required: true, trigger: "change", validator: validateNumber }
-	}]
-}
-
-// 带最小值
-rules: {
-	num: [{
-		{ required: true, min: 0, trigger: "change", validator: validateNumber }
-	}]
-}
-
-// 带最大值
-rules: {
-	num: [{
-		{ required: true, max: 999, trigger: "change", validator: validateNumber }
-	}]
-}
-
-// 带最小、最大值
-rules: {
-	num: [{
-		{ required: true, min: 0, max: 999, trigger: "change", validator: validateNumber }
-	}]
-}
+encrypt(str) // 加密后的字符串
 ```
 
 <br/>
-
-## 系统运行环境
-
-<br/>
-
-> tips: 验证客户端类型。
-
-<br/>
-
-### IE
-
-示例：
-```js
-import { isIE } from '@/utils/agent'
-
-isIE() // true or false
-```
-
-<br/>
-
-### Safari
-
-示例：
-```js
-import { isSafari } from '@/utils/agent'
-
-isSafari() // true or false
-```
-
-<br/>
-
-### 移动设备
-
-示例：
-```js
-import { isMobile } from '@/utils/agent'
-
-isMobile() // true or false
-```
-
-<br/>
-
-### iPad
-
-示例：
-```js
-import { isIpad } from '@/utils/agent'
-
-isIpad() // true or false
-```
-
-<br/>
-
-### MacOS
-
-示例：
-```js
-import { isMacos } from '@/utils/agent'
-
-isMacos() // true or false
-```
-
-<br/>
-
-### LinuxOS
-
-示例：
-```js
-import { isLinux } from '@/utils/agent'
-
-isLinux() // true or false
-```
-
-<br/>
-
-### WindowOS
-
-示例：
-```js
-import { isWindowos } from '@/utils/agent'
-
-isWindowos() // true or false
-```
-
-<br/>
-
-### AndroidOS
-
-示例：
-```js
-import { isAndroidos } from '@/utils/agent'
-
-isAndroidos() // true or false
-```
-
-<br/>
-
-### IOS
-
-示例：
-```js
-import { isIos } from '@/utils/agent'
-
-isIos() // true or false
-```
-
-

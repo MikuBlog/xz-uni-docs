@@ -2,10 +2,9 @@
 
 ## 项目打包
 
-执行以下命令进行项目打包
-```
-npm run build
-```
+如果未安装`HbuilderX`，请[点击此处前往下载编译器](https://www.dcloud.io/hbuilderx.html)
+
+选择左上角菜单选择发行对应端的代码进行编译打包即可
 
 > 建议安装`finalshell`，一款服务器可视化工具，方便管理自己的服务器。
 
@@ -276,19 +275,3 @@ server {
 
 <br/>
 <br/>
-
-## 线上修改请求地址
-
-- 进入项目文件根目录下
-
-- 进入assets/js文件夹并找到baseUrl文件
-
-```js
-const 
-  // 接口统一请求前缀地址
-  baseUrl = 'https://aboot.missiono.cn',
-  // 静态资源请求前缀地址
-  prefixUrl = ''
-```
-
-修改保存即可

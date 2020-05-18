@@ -1,10 +1,18 @@
 # 快速开始
 
+## 安装编译器
+
+如果想体验`uniapp`极致的开发体验，请务必下载`HbuilderX`编译器进行开发！！！
+
+下面的一切步骤都将基于`HbuilderX`执行~
+
+[点击此处前往下载编译器](https://www.dcloud.io/hbuilderx.html)
+
 ## 运行项目
 
 新建一个文件夹，在该目录下直接使用如下命令
 ```
-git clone https://github.com/MikuBlog/xz-admin.git
+git clone https://github.com/MikuBlog/uni-app-resp.git
 ```
 
 进入到下载好的项目目录下，使用如下命令进行依赖安装
@@ -12,129 +20,62 @@ git clone https://github.com/MikuBlog/xz-admin.git
 npm install
 ```
 
-在项目根目录下执行以下命令运行项目
+打开`HbuilderX`
+
++ 选择左上角菜单`运行`
++ 选择对应的项运行项目（如果提示需要安装xxx插件，点击确认安装，最后重新运行项目即可）
+
+#### 温馨提示
+
+如果嫌弃`npm`安装速度过慢，可以切换到淘宝镜像再使用`cnpm`进行安装
+
 ```
-npm run serve
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+```
+
+然后再执行
+
+```
+cnpm install
 ```
 
 ## 目录结构
 
 ```
-├─api // 存放自行封装的api
-│  ├─database
-│  ├─dom
-│  ├─file
-│  ├─http
-│  ├─iconfont
-│  ├─json
-│  ├─message
-│  ├─other
-│  └─storage
-├─assets // 静态资源文件
-│  ├─error
-│  ├─loading
-│  ├─login
-│  ├─logo
-│  └─welcome
-├─components // 第三方与自行封装的组件
-│  ├─breadcrumb
-│  ├─editor
-│  ├─icon_select
-│  ├─scrollpane
-│  ├─search_menu
-│  ├─SvgIcon
-│  ├─tag
-│  ├─tree_menu
-│  └─tree_table
-├─global // 全局模块
+├─api
+├─components // 存放常用组件
+│  ├─lvv-popup
+│  ├─uni-badge
+│  ├─uni-card
+│  ├─uni-icons
+│  ├─uni-list
+│  ├─uni-list-item
+│  ├─uni-load-more
+│  ├─uni-popup
+│  ├─uni-rate
+│  ├─uni-search-bar
+│  └─uni-transition
+├─global
 │  ├─css
 │  └─js
-├─icons // 存放SVG图标
-│  └─svg
-├─initial // 第三方插件、过滤器、自定义指令、样式初始化
-│  └─UI
-├─Layout // 布局组件
-├─router // 路由模块
-├─store // vuex
+├─initial
+├─js_sdk
+│  ├─gangdiedao-uni-axios
+│  └─jsencrypt
+├─node_modules // 打包模块
+├─pages // 页面文件
+│  ├─h5_login
+│  ├─index
+│  │  ├─js
+│  │  └─scss
+│  ├─redirect
+│  └─wx_login
+├─static // 静态资源模块
+│  └─images
+├─store // vuex核心模块
 │  └─modules
-├─utils // 工具类函数
-└─views // 页面
-    ├─article
-    ├─chart
-    │  ├─js
-    │  └─style
-    ├─common
-    │  ├─editor
-    │  ├─file
-    │  ├─icon
-    │  │  ├─js
-    │  │  └─style
-    │  └─markdown
-    │      └─js
-    ├─docs
-    ├─error
-    ├─introduction
-    ├─Layout
-    │  ├─components
-    │  ├─js
-    │  └─style
-    ├─log
-    │  ├─authority_log
-    │  │  ├─components
-    │  │  └─js
-    │  ├─exception_log
-    │  │  └─js
-    │  └─operation_log
-    │      └─js
-    ├─login
-    │  ├─js
-    │  └─style
-    ├─menu_1
-    ├─menu_2
-    ├─menu_3
-    ├─monitor
-    │  ├─online_user
-    │  │  └─js
-    │  └─redis_manage
-    │      └─js
-    ├─order
-    ├─person
-    │  └─components
-    ├─system
-    │  ├─authority
-    │  │  ├─components
-    │  │  └─js
-    │  ├─department
-    │  │  ├─components
-    │  │  └─js
-    │  ├─dictionary
-    │  │  ├─components
-    │  │  └─js
-    │  ├─menu
-    │  │  ├─components
-    │  │  └─js
-    │  ├─role
-    │  │  ├─components
-    │  │  └─js
-    │  ├─station
-    │  │  ├─components
-    │  │  └─js
-    │  └─user
-    │      ├─components
-    │      └─js
-    ├─tools
-    │  ├─file
-    │  │  └─components
-    │  ├─generator
-    │  │  ├─components
-    │  │  └─js
-    │  ├─mission
-    │  │  ├─components
-    │  │  └─js
-    │  └─picture
-    │      ├─components
-    │      └─js
-    └─welcome
+├─unpackage // 编译运行的文件
+└─utils
 ```
 
 ## 页面模块结构
@@ -142,13 +83,10 @@ npm run serve
 为了方便后期的开发与维护，本后台管理系统模板对每个页面模块拆分成如下结构：
 
 ```
-│  ├─menu // 页面模块名称
-│  │  ├─components // 页面组件
+│  ├─home // 页面模块名称
 │  │  └─scss // 页面样式
 │  │  │  └─index.scss
-│  │  └─data // 静态数据模块
 │  │  └─js // 业务逻辑模块
-│  │  │  └─initial.js // 初始化文件
 │  │  │  └─operation.js // 页面逻辑文件
 │  │  │  └─property.js // 响应式属性管理文件
 │  │  ├─index.vue // 页面

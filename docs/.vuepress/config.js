@@ -1,6 +1,6 @@
 module.exports = {
 	plugins: ['@vuepress/back-to-top', '@vuepress/nprogress'],
-  title: 'xzadmin-docs',
+  title: 'xz-uni-docs',
 	description: '让一切复杂的应用程序都从简单的开发开始!',
 	head: [
 		['link', { rel: 'icon', href: '/logo/xz.png' }]

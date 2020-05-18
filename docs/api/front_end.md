@@ -4,352 +4,14 @@
 
 参数：
 
-+ `DOM Object | content`：要复制的`DOM`元素文本或纯文本 [`DOM Object`/`String`]（必填）
++ `content`：要复制的纯文本 [`String`]（必填）
 
 示例
 ```js
 this.$copyText("xuanzai")
-this.$copyText(this.$refs.contentBox)
-```
-
-## urlQuery
-
-描述：获取url后的参数
-
-参数：
-
-+ `url`: 需要解析的`url`字符串 [`String`]（选填：默认解析当前窗口地址）
-
-返回值：`Object`
-
-+ `key`: 参数名称
-+ `value`: 参数值
-
-示例：
-```js
-this.$urlQuery([url]) // url: http://myinterface.xuanzai.top/getPicture?type=头像&id=1  result: { type: '头像', id: 1 }
-```
-
-## print
-
-描述：打印文档
-
-注意：该`API`不兼容`IE`
-
-参数：
-
-+ `page`：`HTML`字符串[`String`]（选填：默认为空）
-
-示例：
-```js
-this.$print(page)
-```
-
-## createSocket
-
-描述：连接`wesocket`
-
-参数：
-
-+ `option`：看示例[`Object`]（选填）
-
-返回值：`WebSocket`实例
-
-示例：
-```js
-this
-  .$createSocket(
-    {
-      url: "ws://xxx.com/xxx", // 连接websocket地址（必填）
-      onOpen(e) {}, // websokcet打开后的回调（选填）
-      onMessage(e) {}, // websocket接收到信息后的回调（选填）
-      onError(e) {}, // websocket出错后的回调（选填）
-      onClose(e) {} // websocket关闭后的回调（选填）
-    }
-  ) // 返回WebSocket实例
-```
-
-## Theme
-
-所有主题模式都用在`body`标签上，也就是所有样式都会被改为对应的主题模式
-
-注意：一次性设置多种主题不会重叠，而是相互覆盖。（不兼容`IE`，影响部分浏览器的流畅度）
-
-如果有的元素不想被主题样式覆盖掉，请前往`src/global/js/config.js`文件进行配置：
-
-```js
-// 不受主题影响的元素（标签、类、id）
-excludeEles: [
-  "img", // 图片
-  "video", // 视频
-  "iframe", // 内嵌网站
-  "embed", // 插件
-  "object",
-  '.el-message', // 提示信息
-  '.el-notification', // 通知信息
-  /* 背景图 */
-  '[style*="background:url"]',
-  '[style*="background-image:url"]',
-  '[style*="background: url"]',
-  '[style*="background-image: url"]',
-  '[style*="background-image"][style*="image-set"]'
-],
-```
-
-### clearMode
-
-描述：白昼模式主题，也称为正常模式，调用该方法后会重置所有主题样式。
-
-示例：
-```js
-this.$clearMode() // 开启白昼模式
-```
-
-### darkMode
-
-描述：夜间模式主题
-
-参数：
-
-`isDark`：是否为黑暗模式[`Boolean`]（选填：默认值为true，关闭时需传入false）
-
-示例：
-```js
-this.$darkMode() // 开启夜间模式
-this.$darkMode(false) // 关闭夜间模式
-```
-
-### weaknessMode
-
-描述：色弱模式
-
-参数：
-
-`isWeakness`：是否为色弱模式[`Boolean`]（选填：默认值为true，关闭时需传入false）
-
-示例：
-```js
-this.$weaknessMode() // 开启色弱模式
-this.$weaknessMode(false) // 关闭色弱模式
-```
-
-### hueRotateMode
-
-描述：转换模式
-
-参数：
-
-`isHueRotate`：是否为转换模式[`Boolean`]（选填：默认值为true，关闭时需传入false）
-
-示例：
-```js
-this.$hueRotateMode() // 开启转换模式
-this.$hueRotateMode(false) // 关闭转换模式
-```
-
-## Array
-
-### sortList
-
-描述：对元素为对象的数组进行排序
-
-注意：只对值为日期、数字、字符串为数字的字段进行排序。原数组会改变。
-
-参数：
-
-+ `list`: 需要排序的数组 [`Array`]（必填）
-+ `property`: 对象排序字段[`String`]（选填：默认为空）
-+ `isDes`: 是否倒序[`Boolean`]（选填：默认为false）
-
-返回值：`Array`
-
-示例：
-```js
-let list = [{ name: "旋仔", level: 3 }, 
-{ name: "旋仔", level: 1 }, 
-{ name: "旋仔", level: 2 }]
-this.$sortList(list, 'level', true) // [{ name: "旋仔", level: 3 }, { name: "旋仔", level: 2 }, { name: "旋仔", level: 1 }]
-```
-
-### searchResult
-
-描述：查找元素（模糊搜索）
-
-参数：
-
-+ `list`: 需要查找的数组 [`Array`]（必填）
-+ `keys`: 查找包含的字段[`Array`]（必填）
-+ `value`: 需要查找的值[`String`]（必填）
-
-返回值：`Array`
-
-示例：
-```js
-let list = [{ name: "旋仔", age: 20 }, { name: "小伙子", age: 16 }]
-this.$searchResult(list, ['name'], '旋仔') // [{ name: "旋仔", age: 20 }]
-this.$searchResult(list, ['name'], 'xxx') // []
-```
-
-### removeRepeat
-
-描述：数组去重
-
-注意：如果数组元素为对象，仅对key值为第一层的对象进行去重
-
-参数：
-
-+ `arr`: 需要排序的数组 [`Array`]（必填）
-+ `key`: 对象去重字段[`String`]（选填：默认为空）
-
-返回值：`Array`
-
-示例：
-```js
-const arr_1 = [1, 2, 3, 2, 1]
-this.$removeRepeat(arr_1) // [1, 2, 3]
-const arr_2 = [{
-	value: "123"
-}, {
-	value: "321"
-}, {
-	value: "123"
-}, {
-	value: "321"
-}, {
-	value: "123"
-}]
-this.$removeRepeat(arr_1, 'value') // [{ value: "123" }, { value: "321" }]
-```
-
-## control
-
-### debounce
-
-描述：防抖函数
-
-效果：用户交互行为过于频繁而被禁止调用，一段时间后释放
-
-参数：
-
-+ `callback`：回调函数（必填）
-+ `time`：防抖时间间隔（必填）
-+ `immediate`：第一次点击是否立刻执行（选填：默认为true）
-
-返回值：`Function`
-
-示例：
-```js
-const callback = () => {
-  // todo
-}
-const debounceFun = this.$debounce(callback, 2500, true)
-```
-
-### throttled
-
-描述：节流函数
-
-效果：用户交互行为间隔触发回调，防止用户频繁点击
-
-参数：
-
-+ `callback`：回调函数（必填）
-+ `wait`：节流时间间隔（必填）
-
-返回值：`Function`
-
-示例：
-```js
-const callback = () => {
-  // todo
-}
-const throttledFun = this.$throttled(callback, 2500)
-```
-
-## Style
-
-### setStyle
-
-描述：为`DOM`元素设置样式
-
-注意：设置的样式为内联样式，不会覆盖所有内联样式，而是通过追加的形式添加样式
-
-参数：
-
-+ `DOM`：`DOM`元素 [`DOM Object`]（必填）
-+ `ruleName`：CSS属性或组合CSS对象 [`String` | `Object`]（必填）
-+ `style`：CSS属性值 [`String`]（必填）
-
-示例：
-```js
-// 设置单个属性
-this.$setStyle(this.$refs.background, 'background-image', 'url(xxxx)')
-// 设置多个属性
-this.$setStyle(this.$refs.background, {
-  backgroundImage: 'url(xxx)',
-  backgroundSize: 'cover',
-  backgroundRepeat: 'no-repeat'
-})
-```
-
-### setCssText
-
-描述：为`DOM`元素设置内联样式
-
-注意：设置后会覆盖原有的内联样式
-
-参数：
-
-+ `DOM`：`DOM`元素 [`DOM Object`]（必填）
-+ `CSS`：CSS语法 [`String`]（必填）
-
-示例：
-```js
-this.$setCssText(this.$refs.background, `
-  background: #666;
-  padding: 20px;
-`)
-```
-
-### createStyle
-
-描述：创建全局样式
-
-注意：通过创建`style`标签并动态追加到`head`标签内完成样式的全局覆盖
-
-参数：
-
-+ `css`：CSS语法 [`String`]（必填）
-+ `className`：类名[`String`]（选填，如果不填该属性，则每次调用都会创建一个新的`style`标签）
-
-示例：
-```js
-this.$createStyle(`
-  body {
-    background: #666;
-    padding: 20px;
-  }
-`)
 ```
 
 ## File
-
-### download
-
-描述：文件下载（自带`tips`以及`loading`）
-
-> [批量下载文件](#exportfile)
-
-参数：
-
-+ `url`：文件地址 [`String`]（必填）
-+ `fileName`: 文件名称 [`String`]（选填：默认为原文件名称）
-
-示例：
-```js
-// 文件下载
-this.$download(url, fileName)
-```
 
 ###  getImgFile
 
@@ -371,77 +33,6 @@ this
 	.then((raw, url) => {
 		// todo
 	})
-```
-
-###  getFile
-
-描述：获取文件信息
-
-参数：
-
-+ `limit`：文件大小 [`Number`] 单位：兆（选填：默认限制文件大小为2M）
-
-返回值：`Promise`
-
-+ `raw`：二进制文件
-
-示例：
-```js
-this
-	.$getFile(limit)
-	.then(raw => {
-		// todo
-	})
-```
-
-###  dataUrlToFile
-
-描述：base64转为file
-
-参数：
-
-+ `dataurl`：base64字符串[`String`]
-+ `filename`：文件名[`String`]
-
-返回值：`File`
-
-+ `raw`：二进制文件
-
-示例：
-```js
-this.$dataUrlToFile(base64, 'file') // 返回File实例
-```
-
-### previewFile
-
-描述：预览文件
-
-注意：该`api`使用了微软的预览接口，因此，请保证网络状态良好且文件必须能通过外链被访问到。
-
-参数：
-
-+ `url`：文件路径 [`String`]（必填）
-
-示例：
-```js
-this.$previewFile(url)
-```
-
-### exportExcel
-
-描述：将表格导出到`excel`文件中
-
-注意：导出的数据为当前表格的数据，而不是所有表格数据
-
-参数：
-
-+ `obj`：选中的表格元素 [`DOM | Array(DOM)`]（必填）
-+ `name`: 文件名称[`String`]（选填：默认为table）
-
-示例：
-```js
-this.$exportExcel(document.querySelector('table'), 'data') // 导出一整个表格
-this.$exportExcel(document.querySelectorAll('tr'), 'data') // 导出选中元素的表格（数组元素必须为tr标签元素）
 ```
 
 ## Date
@@ -586,36 +177,7 @@ this.$fromNow(new Date()) // 几秒前
 
 ## storage
 
-通过`sessionStorage`与`localStorage`进行简单的封装。
-
-### setMemorySes
-
-描述：会话存储，写入
-
-参数：
-
-+ `key`: 键 [`String`]（必填）
-+ `value`: 值 [`Any`]（必填）
-
-示例：
-```js
-this.$setMemorySes("name", "xuanzai")
-```
-
-### getMemorySes
-
-描述：会话存储，读取
-
-参数：
-
-+ `key`: 键 [`String`]（必填）
-
-返回值：根据`this.$setMemorySes`的值决定
-
-示例：
-```js
-this.$getMemorySes("name")
-```
+通过`localStorage`进行简单的封装。
 
 ### setMemoryPmt
 
@@ -646,109 +208,168 @@ this.$setMemoryPmt("name", "xuanzai")
 this.$getMemoryPmt("name")
 ```
 
+## Navigate
+
+导航到对应页面
+
+### navigateTo
+
+描述：跳转到对应页面，页面栈增加
+
+参数：
+
++ `url`：路由地址[`String`]（必填）
+
+示例：
+```js
+this.$navigateTo({ url: "/pages/home/index" })
+```
+
+带参数示例：
+```js
+// 页面A
+this.$navigateTo({ url: "/pages/home/index?id=1" })
+
+// 页面B
+onLoad(query) {
+	console.log(query.id) // 1
+}
+```
+
+### navigateBack
+
+描述：页面返回，页面栈减少
+
+参数：
+
++ `delta`：返回的页面数，如果`delta`大于现有页面数，则返回到首页
+
+示例：
+```js
+this.$navigateBack() // 默认返回一页
+this.$navigateBack(3) // 返回到前三页，如果页面数大于页面栈数，返回到首页
+```
+
+### switchTab
+
+描述：返回到`tab`页面，页面栈清空
+
+参数：
+
++ `url`：路由地址[`String`]（必填）
++ `success`：成功回调
++ `fail`：失败回调
++ `complete`: 完成回调
+
+示例：
+```js
+this.$switchTab({ url: "/pages/home/index" })
+```
+
+### redirectTo
+
+描述：关闭当前页面，跳转到相应路由页面
+
+参数：
+
++ `url`：路由地址[`String`]（必填）
+
+示例：
+```js
+this.$redirectTo({ url: "/pages/home/index" })
+```
+
+### reLaunch
+
+描述：关闭所有页面，跳转到相应页面，此时页面栈数为2
+
+参数：
+
++ `url`：路由地址[`String`]（必填）
++ `success`：成功回调
++ `fail`：失败回调
++ `complete`: 完成回调
+
+示例：
+```js
+this.$reLaunch({ url: "/pages/home/index" })
+```
+
 ## Message
 
-通过`element-ui`的`Message`组件进行二次封装。
+通过`uniapp`的提示信息进行二次封装。
 
-### successMsg
+### showToast
 
-描述：成功提示
+描述：冒泡提示
 
 参数：
 
-+ `content`：提示语 [`String`]（必填）
++ `title`: 提示语 [`String`]（选填，默认为空）
++ `icon`: 提示图标[`String`]（选填，默认为`success`）
++ `mask`: 是否有遮罩[`Boolean`]（选填，默认为`false`）
++ `duration`: 持续时长[`Number`]（选填，默认为1.5秒）
++ `success`：成功回调
++ `fail`：失败回调
++ `complete`: 完成回调
 
 示例：
 ```js
-this.$successMsg("成功")
+this.$showToast({
+	icon: "success",
+	title: "成功"
+})
 ```
 
-### warnMsg
+### showLoading
 
-描述：警告提示
+描述：加载提示
 
 参数：
 
-+ `content`：提示语 [`String`]（必填）
++ `title`: 提示语 [`String`]（选填，默认为空）
++ `mask`: 是否有遮罩[`Boolean`]（选填，默认为`false`）
++ `success`：成功回调
++ `fail`：失败回调
++ `complete`: 完成回调
 
 示例：
 ```js
-this.$warnMsg("警告")
+this.$showLoading()
 ```
 
-### errorMsg
+### showModal
 
-描述：错误提示
-
-参数：
-
-+ `content`：提示语 [`String`]（必填）
-
-示例：
-```js
-this.$errorMsg("错误")
-```
-
-### showMsgBox
-
-描述：信息弹窗
+描述：弹窗提示
 
 参数：
 
-+ `title`：标题 [`String`]（选填：默认为空）
-+ `msg`：内容 [`String`/`HTML(isHTML为true时)`]（必填）
-+ `isHTML`：内容是否为`html`标签 [`true`/`false`]（选填：默认为false）
-+ `type`: 类型 [`success`/`warn`/`info`/`error`]（选填：默认为info）
-
-返回值：`Promise`
-
-示例：
-```js
-this.$showMsgBox({ [title: "标题"], msg: "内容", [isHTML: false], [type: info] })
-```
-
-## Notification
-
-### successTip
-
-描述：成功通知
-
-参数：
-
-+ `msg`：通知内容 [`String`]（必填）
-+ `title`：通知标题 [`String`]（选填：默认为空）
++ `title`: 标题 [`String`]（选填，默认为空）
++ `content`: 内容 [`String`]（选填，默认为空）
++ `mask`: 是否有遮罩[`Boolean`]（选填，默认为`false`）
++ `showCancel`: 是否显示取消按钮[`Boolean`]（选填，默认为`false`）
++ `cancelText`: 取消按钮文本内容[`String`]（选填，默认为取消）
++ `confirmText`: 确认文本文字[`String`]（选填，默认为确认）
++ `cancelColor`: 取消按钮颜色[`String`]（选填，默认颜色因各端而不同）
++ `confirmColor`: 确认按钮颜色[`String`]（选填，默认颜色因各端而不同）
++ `success`：成功回调
+	+ 返回值：e
+		+ `confirm`: 点击确认时返回`true`，否则返回`false`
++ `fail`：失败回调
++ `complete`: 完成回调
 
 示例：
 ```js
-this.$successTip({ msg: "成功通知", title: "成功" })
-```
-
-### warnTip
-
-描述：警告通知
-
-参数：
-
-+ `msg`：通知内容 [`String`]（必填）
-+ `title`：通知标题 [`String`]（选填：默认为空）
-
-示例：
-```js
-this.$warnTip({ msg: "警告通知", title: "警告" })
-```
-
-### errorTip
-
-描述：错误通知
-
-参数：
-
-+ `msg`：通知内容 [`String`]（必填）
-+ `title`：通知标题 [`String`]（选填：默认为空）
-
-示例：
-```js
-this.$errorTip({ msg: "错误通知", title: "错误" })
+this.$showModal({
+	content: "内容",
+	success: e => {
+		if(e.confirm) {
+			console.log("点击确认")
+		} else {
+			console.log("点击取消")
+		}
+	}
+})
 ```
 
 ## http
@@ -807,7 +428,7 @@ this.$http_json({
 
 返回值：`Promise` 
 
-示例：
+`H5`示例：
 ```js
 this.$http_file({
 	url: "/xxx/xxx",
@@ -823,22 +444,89 @@ this.$http_file({
 })
 ```
 
-## jquery
+`小程序`示例：
+```js
+// 小程序只能上传一份文件，该文件数据存放在file字段里
+this.$http_file({
+	url: "/xxx/xxx",
+	method: "post",
+	data: {
+		file: raw,
+		name: "",
+		age: ""
+	}
+}).then(result => {
+	// todo
+})
+```
 
-描述：该项目引入了`jquery`，可在任何组件或页面中使用。
+## wxLogin
 
-具体`API`请参考网上文档。
+描述：`H5`微信登录
+
+> 注意：仅在编译为`H5`时生效
+
+返回值：`code`
 
 示例：
 ```js
-// 获取DOM
-$("head")
+this.$wxLogin() // code
+```
 
-// 请求
-$.ajax({
-  url: "xxx",
-  type: "get"
-}).then(result => {
-  // todo
+## wxPay
+
+描述：`H5`微信支付
+
+> 注意：仅在编译为`H5`时生效
+
+参数：
+
++ `options`：微信支付参数[`Object`]（必填）
+	+ `debug`：是否开启调试模式[`Boolean`]（选填，默认为`false`）
+	+ `appId`：公众号唯一标识[`String`]（必填）
+	+ `timestamp`：生成签名的时间戳[`String`]（必填）
+	+ `nonceStr`：生成签名随机字符串[`String`]（必填）
+	+ `signature`：生成签名[`String`]（必填）
+	+ `packageValue`：统一支付接口返回的prepay_id参数值[`String`]（必填）
+	+ `paySign`：支付签名[`String`]（必填）
++ `success`：成功回调
++ `fali`：失败回调
++ `complete`：完成回调
+
+示例：
+```js
+this.$wxPay({
+	appId,
+	timestamp,
+	signature,
+	nonceStr,
+	packageValue,
+	paySign
+}, e => {
+	console.log("支付成功")
+}, e => {
+	console.log("支付失败")
+}, e => {
+	console.log("调用接口结束")
 })
+```
+
+## getLocationAuth
+
+描述：获取微信地理位置授权
+
+> 注意：仅在编译为微信小程序时生效
+
+返回值：`Promise`
+
++ `userLocation`: 允许获取用户定位信息[`Boolean`]，不允许则为`false`
++ `locationBackground`: 允许用户在将小程序置为后台时持续定位，不允许则为`false`
+
+示例：
+```js
+this
+	.$getLocationAuth()
+	.then(result => {
+		// { userLocation: false, locationBackground: false }
+	})
 ```
