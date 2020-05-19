@@ -35,6 +35,22 @@ this
 	})
 ```
 
+## rotateImage
+
+描述：将图片转正
+
+参数：
+
++ `img`：图片地址[`String`]
++ `cb`：回调地址[`Function`]
+
+示例：
+```js
+this.$rotate(img, url => {
+	// todo
+})
+```
+
 ## Date
 
 日期格式化方法。
@@ -513,7 +529,7 @@ this.$wxPay({
 
 描述：`H5`微信分享
 
-> 注意：仅在编译为`H5`时生效
+> 注意：仅在编译为`H5`时生效，分享前先调用此接口，建议在onLoad、created等初始化生命周期内调用。
 
 参数：
 
