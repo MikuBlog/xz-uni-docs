@@ -14,7 +14,13 @@ module.exports = {
 			{ text: 'Utils', link: '/utils/front_end' },
 			{ text: '部署', link: '/online/front_end' },
 			{ text: '日志', link: '/update/' },
-		  { text: '项目地址', link: "https://github.com/MikuBlog/xz-admin" },
+		  { text: '友情链接', 
+				items: [
+					{ text: '项目地址', link: "https://github.com/MikuBlog/uni-app-resp" },
+					{ text: 'xz-admin-docs', link: "http://xzadmin-docs.xuanzai.top" },
+					{ text: 'xz-admin', link: "https://github.com/MikuBlog/xz-admin" }
+				]
+			}
 		],
 		sidebar: {
 			'/guide/': [{
@@ -23,13 +29,6 @@ module.exports = {
 				children: [
 					'develope/quick_start',
 					'develope/front_end'
-				]
-			}, {
-				title: "其他",
-				collapsable: false,
-				children: [
-					'other/question',
-					'other/tips'
 				]
 			}],
 			'/api/': [{

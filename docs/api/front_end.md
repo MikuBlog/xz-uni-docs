@@ -483,7 +483,6 @@ this.$wxLogin() // code
 
 + `options`：微信支付参数[`Object`]（必填）
 	+ `debug`：是否开启调试模式[`Boolean`]（选填，默认为`false`）
-	+ `appId`：公众号唯一标识[`String`]（必填）
 	+ `timestamp`：生成签名的时间戳[`String`]（必填）
 	+ `nonceStr`：生成签名随机字符串[`String`]（必填）
 	+ `signature`：生成签名[`String`]（必填）
@@ -496,7 +495,6 @@ this.$wxLogin() // code
 示例：
 ```js
 this.$wxPay({
-	appId,
 	timestamp,
 	signature,
 	nonceStr,
@@ -511,22 +509,62 @@ this.$wxPay({
 })
 ```
 
+## wxShare
+
+描述：`H5`微信分享
+
+> 注意：仅在编译为`H5`时生效
+
+参数：
+
++ `options`：微信支付参数[`Object`]（必填）
+	+ `debug`：是否开启调试模式[`Boolean`]（选填，默认为`false`）
+	+ `timestamp`：生成签名的时间戳[`String`]（必填）
+	+ `nonceStr`：生成签名随机字符串[`String`]（必填）
+	+ `signature`：生成签名[`String`]（必填）
+	+ `title`：分享标题[`String`]（必填）
+	+ `desc`：分享内容描述[`String`]（必填）
+	+ `link`：分享链接[`String`]（必填）
+	+ `imgUrl`：分享图片[`String`]（必填）
++ `success`：成功回调
++ `fali`：失败回调
++ `complete`：完成回调
+
+示例：
+```js
+this.$wxShare({
+	timestamp,
+	signature,
+	nonceStr,
+	title,
+	desc,
+	link,
+	imgUrl
+}, e => {
+	console.log("设置成功")
+}, e => {
+	console.log("设置失败")
+}, e => {
+	console.log("调用接口结束")
+})
+```
+
 ## getLocationAuth
 
 描述：获取微信地理位置授权
 
-> 注意：仅在编译为微信小程序时生效
+> 注意：仅在编译为微信小程序时生效，调用时需要配合
 
 返回值：`Promise`
 
 + `userLocation`: 允许获取用户定位信息[`Boolean`]，不允许则为`false`
-+ `locationBackground`: 允许用户在将小程序置为后台时持续定位，不允许则为`false`
++ `locationBackground`: 允许用户在将小程序置为后台时持续定位[`Boolean`]，不允许则为`false`
 
 示例：
 ```js
 this
 	.$getLocationAuth()
 	.then(result => {
-		// { userLocation: false, locationBackground: false }
+		//result { userLocation: false, locationBackground: false }
 	})
 ```
