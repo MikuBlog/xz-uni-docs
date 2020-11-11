@@ -1,6 +1,6 @@
-# XZ-ADMIN-DOCS
+# XZ-UNI-DOCS
 
-XZ-ADMIN 文档源码
+XZ-UNI 文档源码
 
 ## Build Setup
 ``` bash
