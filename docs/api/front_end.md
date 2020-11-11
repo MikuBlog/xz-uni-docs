@@ -10,7 +10,11 @@ content | String | 是 | 复制的纯文本
 
 示例
 ```js
-this.$copyText("xuanzai")
+this
+	.$copyText("xuanzai")
+	.then(result => {
+		// success to do
+	})
 ```
 
 ## File
@@ -71,9 +75,9 @@ this
 
 ### rotateImage
 
-描述：将图片转正，一般搭配`uni.chooseImage`使用
+描述：将翻转的图片摆正，一般搭配`uni.chooseImage`使用
 
-> 注意：仅适用于APP和小程序
+> 注意：仅在编译为非h5平台生效
 
 参数：
 
@@ -84,7 +88,7 @@ cb | Function | 否 | 回调方法，方法接收的参数为图片的`url`
 
 示例：
 ```js
-this.$rotate(img, url => {
+this.$rotateImage(img, url => {
 	// todo
 })
 ```
@@ -97,7 +101,7 @@ this.$rotate(img, url => {
 
 参数 | 类型 | 必填 | 说明
 - | - | - | -
-url | String | 是 | 图片地址
+url | String | 是 | 文件地址
 fileName | Function | 否 | 文件名称，`h5`中部分浏览器如`chrome`与`fireFox`生效，其他端无效
 isLoading | Boolean | 否 | 是否显示加载更多，默认值为`false`
 
@@ -108,11 +112,29 @@ isLoading | Boolean | 否 | 是否显示加载更多，默认值为`false`
 示例：
 ```js
 this.$downloadFile({
-	url: "https://myinterface.xuanzai.top/getPicture" // 图片地址,
+	url: "https://myinterface.xuanzai.top/getPicture" // 文件地址,
 	fileName: 'image',
 	isLoading: true
 })
 ```
+
+### dataUrlToBlob
+
+描述：将`base64`数据转为`blob`
+
+> 注意：仅在编译为H5时生效
+
+参数：
+
+参数 | 类型 | 必填 | 说明
+- | - | - | -
+dataurl | String | 是 | base64
+
+示例：
+```js
+this.$dataUrlToBlob(base64) // blob
+```
+
 
 ## Date
 
@@ -597,6 +619,28 @@ code | String | 回调地址后的那一串`code`值
 this.$wxLogin() // code
 ```
 
+## jumpToOfficial
+
+描述：`H5`跳转到对应公众号
+
+> 注意：仅在编译为`H5`时生效
+
+> 关于如何拿到base值？<br/>
+> 1、登录公众号后台 <br/>
+> 2、在公众号首页右键查看源码 <br/>
+> 3、找到`commonData`参数，然后找到该对象里面的`uin_base64`值，并将该值传入函数即可
+
+参数：
+
+参数 | 类型 | 说明
+- | - | -
+uin_base64 | String | 公众号的base值
+
+示例：
+```js
+this.$jumpToOfficial(uin_base64) 
+```
+
 ## wxPay
 
 描述：`H5`微信支付
@@ -689,7 +733,7 @@ this.$wxShare({
 
 描述：获取微信地理位置授权
 
-> 注意：仅在编译为微信小程序时生效，调用时需要配合
+> 注意：仅在编译为微信小程序时生效，调用时需要配合uni.openSetting使用
 
 返回值：`Promise`
 
@@ -702,7 +746,16 @@ locationBackground | Boolean | 允许用户在将小程序置为后台时持续�
 ```js
 this
 	.$getLocationAuth()
-	.then(result => {
-		//result { userLocation: false, locationBackground: false }
+	.then(result => { //result { userLocation: false, locationBackground: false }
+		if(!result.userLocation || !result.locationBackground) {
+			this.$showModal({
+				content: "系统检测您为开启位置权限",
+				success: e => {
+					if(e.confirm) {
+						uni.openSetting()
+					}
+				}
+			})
+		}
 	})
 ```

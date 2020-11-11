@@ -18,7 +18,7 @@ thumb = "https://myinterface.xuanzai.top/getPicture?type=error"
 ```js
 import { convertHttp } from '@/utils/convertHttp'
 
-// 返回由prefixUrl拼接的网络地址
+// 返回由prefixUrl拼接的网络地址，如果传入为空，则返回缺省占位图
 const imageUrl = convertHttp(val.image) // prefixUrl + val.image
 ```
 
@@ -133,6 +133,17 @@ isUpperCase(str) // true or false
 import { encrypt } from '@/utils/encrypt'
 
 encrypt(str) // 加密后的字符串
+```
+
+<br/>
+
+## 汉字转拼音
+
+示例:
+```js
+import { chineseToPinYin } from '@/utils/pinyin'
+
+chineseToPinYin('中国') // ZhongGuo
 ```
 
 <br/>
