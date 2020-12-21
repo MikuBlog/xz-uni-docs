@@ -584,10 +584,6 @@ this.$showModal({
 
 描述：打开蓝牙适配器，在连接蓝牙设备之前必须先进行这一步操作
 
-参数：
-
-[具体参考uniapp-showModal](https://uniapp.dcloud.io/api/ui/prompt?id=showmodal)
-
 示例：
 ```js
 this
