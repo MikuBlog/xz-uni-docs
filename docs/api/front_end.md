@@ -328,6 +328,70 @@ date | String | 常用的日期字符串，具体见示例
 this.$fromNow(new Date()) // 几秒前
 ```
 
+## Location
+
+> 注意：仅在编译为非`H5`平台时生效
+
+### getLocation
+
+描述：获取当前/指定位置的经纬度
+
+参数 | 类型 | 必填 | 说明
+- | - | - | -
+address | String | 否 | 地址信息
+
+返回值：经纬度对象
+
+示例：
+```js
+// 获取当前位置经纬度
+this
+	.$getLocation()
+	.then(res => {
+		// res: { latitude, longitude }
+	})
+	
+// 获取指定位置经纬度
+this
+	.$getLocation('广东省广州市天河区体育西路')
+	.then(res => {
+		// res: { latitude, longitude }
+	})
+```
+
+### getAddress
+
+描述：获取当前位置信息
+
+参数：
+
+参数 | 类型 | 必填 | 说明
+- | - | - | -
+latitude | Number/String | 是 | 纬度
+longitude | Number/String | 是 | 经度
+
+返回值：地址信息对象
+
+示例
+```js
+this
+	.$getAddress(lat, lng)
+	.then(res => {
+		// res: 地址详情
+	})
+	
+// 结合getLocation获取当前位置信息
+this
+	.$getLocation()
+	.then(res => {
+		this
+			.$getAddress(res.latitude, res.longitude)
+			.then(res => {
+				// todo
+			})
+	})
+```
+
 ## storage
 
 通过`localStorage`进行简单的封装。
@@ -510,6 +574,382 @@ this.$showModal({
 		}
 	}
 })
+```
+
+## Bluetooth
+
+通过`uniapp`的蓝牙模块进行二次封装。
+
+### openBluetoothAdapter
+
+描述：打开蓝牙适配器，在连接蓝牙设备之前必须先进行这一步操作
+
+参数：
+
+[具体参考uniapp-showModal](https://uniapp.dcloud.io/api/ui/prompt?id=showmodal)
+
+示例：
+```js
+this
+	.$openBluetoothAdapter()
+	.then(result => {
+		// todo
+	})
+	.catch(e => {
+		this.$showModal({
+			title: "蓝牙初始化失败",
+			content: "请打开你的手机蓝牙以便连接设备",
+			success: e => {
+				if(e.confirm) {
+					// todo
+				}
+			}
+		})
+	})
+```
+
+### startBluetoothDeviceDiscovery
+
+描述：通过蓝牙设备名称查找对应的蓝牙设备
+
+> tips: 由于`ios`设备获取到的蓝牙设备`deviceId`不一致，所以需要通过蓝牙设备名称去获取设备的`deviceId`以便连接设备
+
+参数：
+
+参数 | 类型 | 必填 | 说明
+- | - | - | -
+name | String | 是 | 设备名称
+
+`Promise`返回值：
+
+参数 | 类型 | 说明
+- | - | - | -
+result | String | 设备ID
+
+示例：
+```js
+// 用法
+this
+	.$startBluetoothDevicesDiscovery(name)
+	.then(result => {
+		// todo
+	})
+	.catch(e => {
+		this.$showToast({
+			icon: "none",
+			title: "没有找到相应设备"
+		})
+	})
+
+// 具体使用场景，先初始化蓝牙 ---> 再连接设备
+this
+	.$openBluetoothAdapter()
+	.then(result => {
+		this
+			.$connectBle(deviceId)
+			.then(result => {
+				
+			})
+			.catch(e => {
+				this.$showToast({
+					icon: "none",
+					title: "设备连接失败，请稍后再试"
+				})
+			})
+	})
+	.catch(e => {
+		this.$showModal({
+			title: "蓝牙初始化失败",
+			content: "请打开你的手机蓝牙以便连接设备",
+			success: e => {
+				if(e.confirm) {
+					// todo
+				}
+			}
+		})
+	})
+```
+
+### connectBle
+
+描述：连接蓝牙设备
+
+参数：
+
+参数 | 类型 | 必填 | 说明
+- | - | - | -
+deviceId | String | 是 | 设备ID
+
+示例：
+```js
+// 用法
+this
+	.$connectBle(deviceId)
+	.then(result => {
+		// todo
+	})
+	.catch(e => {
+		this.$showToast({
+			icon: "none",
+			title: "设备连接失败，请稍后再试"
+		})
+	})
+
+// 具体使用场景，先初始化蓝牙 ---> 再连接设备
+this
+	.$openBluetoothAdapter()
+	.then(result => {
+		this
+			.$connectBle(deviceId)
+			.then(result => {
+				
+			})
+			.catch(e => {
+				this.$showToast({
+					icon: "none",
+					title: "设备连接失败，请稍后再试"
+				})
+			})
+	})
+	.catch(e => {
+		this.$showModal({
+			title: "蓝牙初始化失败",
+			content: "请打开你的手机蓝牙以便连接设备",
+			success: e => {
+				if(e.confirm) {
+					// todo
+				}
+			}
+		})
+	})
+```
+
+### getBluetoothServices
+
+描述：获取蓝牙服务列表
+
+参数：
+
+参数 | 类型 | 必填 | 说明
+- | - | - | -
+deviceId | String | 是 | 设备ID
+
+`Promise`返回值：
+
+参数 | 类型 | 说明
+- | - | - | -
+list | Array | 服务信息列表
+
+示例：
+```js
+// 用法
+this
+	.$getBluetoothServices(deviceId)
+	.then(result => {
+		// todo
+	})
+	.catch(e => {
+		this.$showToast({
+			icon: "none",
+			title: "获取设备服务列表错误"
+		})
+	})
+
+// 具体使用场景，先初始化蓝牙 ---> 连接设备 ---> 获取服务列表 
+this
+	.$openBluetoothAdapter()
+	.then(result => {
+		this
+			.$connectBle(deviceId)
+			.then(result => {
+				this
+					.$getBluetoothServices(deviceId)
+					.then(result => {
+						// todo
+					})
+					.catch(e => {
+						this.$showToast({
+							icon: "none",
+							title: "获取设备服务列表错误"
+						})
+					})
+			})
+			.catch(e => {
+				this.$showToast({
+					icon: "none",
+					title: "设备连接失败，请稍后再试"
+				})
+			})
+	})
+	.catch(e => {
+		this.$showModal({
+			title: "蓝牙初始化失败",
+			content: "请打开你的手机蓝牙以便连接设备",
+			success: e => {
+				if(e.confirm) {
+					// todo
+				}
+			}
+		})
+	})
+```
+
+### getBluetoothCharacteristics
+
+描述：获取蓝牙服务特征信息
+
+参数：
+
+参数 | 类型 | 必填 | 说明
+- | - | - | -
+deviceId | String | 是 | 设备ID
+serviceId | String | 是 | 设备服务ID
+
+`Promise`返回值：
+
+参数 | 类型 | 说明
+- | - | - | -
+list | Array | 特征信息列表
+
+示例：
+```js
+// 用法
+this
+	.$getBluetoothCharacteristics(deviceId, serviceId)
+	.then(result => {
+		// todo
+	})
+	.catch(e => {
+		this.$showToast({
+			icon: "none",
+			title: "获取特征信息列表失败"
+		})
+	})
+
+// 具体使用场景，先初始化蓝牙 ---> 连接设备 ---> 获取服务列表 ---> 获取特征列表
+this
+	.$openBluetoothAdapter()
+	.then(result => {
+		this
+			.$connectBle(deviceId)
+			.then(result => {
+				this
+					.$getBluetoothServices(deviceId)
+					.then(result => {
+						this
+							.$getBluetoothCharacteristics(deviceId, serviceId)
+							.then(result => {
+								// todo
+							})
+					})
+					.catch(e => {
+						this.$showToast({
+							icon: "none",
+							title: "获取设备服务列表错误"
+						})
+					})
+			})
+			.catch(e => {
+				this.$showToast({
+					icon: "none",
+					title: "设备连接失败，请稍后再试"
+				})
+			})
+	})
+	.catch(e => {
+		this.$showModal({
+			title: "蓝牙初始化失败",
+			content: "请打开你的手机蓝牙以便连接设备",
+			success: e => {
+				if(e.confirm) {
+					// todo
+				}
+			}
+		})
+	})
+```
+
+### sendServiceMsg
+
+描述：向蓝牙设备发送信息
+
+参数：
+
+参数 | 类型 | 必填 | 说明
+- | - | - | -
+deviceId | String | 是 | 设备ID
+serviceId | String | 是 | 设备服务uuid
+characteristicId | String | 是 | 设备特征uuid
+buffer | ArrayBuffer | 是 | 需要发送的信息
+
+示例：
+```js
+// 用法
+this
+	.$sendServiceMsg(deviceId, serviceId, characteristicId, buffer)
+	.then(result => {
+		// todo
+	})
+	.catch(e => {
+		this.$showToast({
+			icon: "none",
+			title: "发送信息失败"
+		})
+	})
+```
+
+### getServiceMsg
+
+描述：获取蓝牙设备信息
+
+参数：
+
+参数 | 类型 | 必填 | 说明
+- | - | - | -
+deviceId | String | 是 | 设备ID
+serviceId | String | 是 | 设备服务uuid
+characteristicId | String | 是 | 设备特征uuid
+
+示例：
+```js
+// 用法
+this
+	.$sendServiceMsg(deviceId, serviceId, characteristicId)
+	.then(result => {
+		// todo
+	})
+	.catch(e => {
+		this.$showToast({
+			icon: "none",
+			title: "发送信息失败"
+		})
+	})
+```
+
+### stopService
+
+描述：断开蓝牙设备
+
+参数：
+
+参数 | 类型 | 必填 | 说明
+- | - | - | -
+deviceId | String | 是 | 设备ID
+
+示例：
+```js
+// 用法
+this
+	.$stopService(deviceId)
+	.then(result => {
+		// todo
+	})
+	.catch(e => {
+		this.$showToast({
+			icon: "none",
+			title: "断开设备成功"
+		})
+	})
 ```
 
 ## http
