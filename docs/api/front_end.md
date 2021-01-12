@@ -93,7 +93,38 @@ this.$rotateImage(img, url => {
 })
 ```
 
-### downloadFile
+### compressImageFile
+
+描述：压缩图片文件
+
+> 注意：仅在编译为h5平台生效
+
+`options`参数：
+
+参数 | 类型 | 必填 | 说明
+- | - | - | -
+file | file | 是 | 文件
+quality | Number | 否 | 文件质量，默认质量为`0.7`
+
+返回值：`Promise`
+
+参数 | 类型 | 说明
+- | - | -
+raw | File | 文件对象
+
+示例：
+```js
+this
+	.$compressFile(
+		file,
+		quality
+	)
+	.then(raw => {
+		// todo
+	})
+```
+
+### download
 
 描述：下载文件
 
@@ -111,7 +142,7 @@ isLoading | Boolean | 否 | 是否显示加载更多，默认值为`false`
 
 示例：
 ```js
-this.$downloadFile({
+this.$download({
 	url: "https://myinterface.xuanzai.top/getPicture" // 文件地址,
 	fileName: 'image',
 	isLoading: true
@@ -330,7 +361,7 @@ this.$fromNow(new Date()) // 几秒前
 
 ## Location
 
-> 注意：仅在编译为非`H5`平台时生效
+> 注意：仅在编译为非`H5`平台时生效，编译为小程序需要在服务器域名中添加合法域名https://apis.map.qq.com
 
 ### getLocation
 
@@ -1036,6 +1067,51 @@ this.$http_file({
 })
 ```
 
+## App
+
+封装`App`常用的一些方法
+
+> tips：仅在`App`环境下使用，如要编译多端，请使用条件编译语句
+
+### appUpdate
+
+描述：检查`App`版本并弹窗更新
+
+> 使用前请先让后台配置相应参数，参数如下
+
+后台返回参数：
+
+参数 | 类型 | 是否需要返回 |说明
+- | - | - | -
+version_code | String | 是 | 版本号
+version_name | String | 是 | 版本名称
+version_info | String | 是 | 版本信息 \n 换行（例如：1.修改了bug1 \n 2.修改了bug2 \n 3.修改了bug3）
+forceUpdate | Boolean | 是 | 是否强制更新
+downloadUrl | String | 是 | 版本下载链接 `IOS安装包更新请放跳转store应用商店链接,安卓apk放文件下载链接`
+
+示例：
+```js
+this.$appUpdate()
+```
+
+### getCurrentNo
+
+描述：获取当前`App`版本
+
+参数：
+
+参数 | 类型 | 是否必传 |说明
+- | - | - | -
+callback | Function | 是 | 返回`App`版本号
+
+示例：
+```js
+this.$getCurrentNo(res => {
+	// todo
+})
+```
+
+
 ## wxLogin
 
 描述：`H5`微信登录
@@ -1102,6 +1178,8 @@ signature | String | 是 | 生成签名
 packageValue | String | 是 | 统一支付接口返回的prepay_id参数值
 paySign | String | 是 | 支付签名
 
+> `options`中的签名相关参数通过后台请求获得
+
 示例：
 ```js
 this.$wxPay({
@@ -1145,6 +1223,8 @@ title | String | 是 | 分享标题
 desc | String | 是 | 分享内容描述
 link | String | 是 | 分享链接
 imgUrl | String | 是 | 分享图片
+
+> `options`中的签名相关参数通过后台请求获得
 
 示例：
 ```js
