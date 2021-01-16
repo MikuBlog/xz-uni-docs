@@ -284,6 +284,8 @@ server {
 【方法1】
 将本地图片压缩，压缩链接为：https://tinypng.com/
 
+调整图片压缩率：https://www.bejson.com/ui/compress_img/
+
 【方法2】
 点击“运行” ---> 点击“运行到小程序模拟器” ---> 选中“运行时是否压缩代码”
 
