@@ -996,7 +996,7 @@ this
 this.$http_normal({
 	url: "/xxx/xxx",
 	method: "get",
-	parmas: {
+	params: {
 		name: "",
 		age: ""
 	}
@@ -1029,7 +1029,7 @@ this.$http_normal({
 this.$http_json({
 	url: "/xxx/xxx",
 	method: "get",
-	parmas: {
+	params: {
 		name: "",
 		age: ""
 	}
